@@ -1,0 +1,13 @@
+--- radvd-0.7.1/configure.in~	Sun Jul 21 14:03:21 2002
++++ radvd-0.7.1/configure.in	Sun Jul 21 14:03:21 2002
+@@ -124,8 +124,8 @@
+ AC_CHECK_HEADERS(sys/time.h)
+ AC_HEADER_TIME
+ 
+-AC_CHECK_HEADER(netinet/ipv6.h, hdrfound=yes,
+- AC_CHECK_HEADER(netinet/ip6.h, hdrfound=yes, hdrfound=no)
++AC_CHECK_HEADER(netinet/ipv6.h, [hdrfound=yes],
++ [AC_CHECK_HEADER(netinet/ip6.h, [hdrfound=yes], [hdrfound=no])]
+ )
+ if test "$hdrfound" = no
+ then
