@@ -2,13 +2,14 @@ Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
 Version:	0.7.1
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
 Patch0:		%{name}-am_fix.patch
+Patch1:		%{name}-ac25x.patch
 URL:		http://v6web.litech.org/radvd/
 BuildRequires:	flex
 BuildRequires:	bison
@@ -42,6 +43,7 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -f missing
