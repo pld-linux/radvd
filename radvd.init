@@ -19,8 +19,8 @@
 [ -f /etc/sysconfig/radvd ] && . /etc/sysconfig/radvd
 
 # Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	echo "WARNING: Networking is down. RADVD can't be runed."
+if is_no "${NETWORKING}"; then
+	msg_Network_Down RADVD
 	exit 1
 fi
 
@@ -36,15 +36,16 @@ case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/radvd ]; then
-		show Starting radvd
+		msg_starting radvd
 		daemon radvd
 	else
-		echo "radvdd already is running"
+		msg_Already_Running radvdd
+		exit 1
 	fi
 	touch /var/lock/subsys/radvd
 	;;
   stop)
-	show Stopping radvd
+	msg_stopping radvd
 	killproc radvd
 	rm -f /var/lock/subsys/radvd
 	;;
@@ -56,7 +57,7 @@ case "$1" in
 	status radvd
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart|reload}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
