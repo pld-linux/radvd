@@ -12,12 +12,12 @@ Source2:	%{name}.init
 Patch0:		%{name}-am_fix.patch
 Patch1:		%{name}-ac25x.patch
 URL:		http://v6web.litech.org/radvd/
-BuildRequires:	flex
-BuildRequires:	bison
-BuildRequires:	automake
 BuildRequires:	autoconf
-Prereq:		rc-scripts >= 0.2.0
-Prereq:		/sbin/chkconfig
+BuildRequires:	automake
+BuildRequires:	bison
+BuildRequires:	flex
+PreReq:		rc-scripts >= 0.2.0
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
