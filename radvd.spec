@@ -5,10 +5,6 @@ Version:	0.7.1
 Release:	1
 License:	GPL
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
