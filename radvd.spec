@@ -58,12 +58,13 @@ automake -a -c
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},%{_sysconfdir}/rc.d/init.d}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf 
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
-%{makeinstall}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 gzip -9nf README TODO CHANGES
 
