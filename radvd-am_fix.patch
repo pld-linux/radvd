@@ -1,0 +1,16 @@
+--- ./Makefile.am.org	Sun Sep 30 01:25:27 2001
++++ ./Makefile.am	Sun Sep 30 01:26:18 2001
+@@ -14,11 +14,11 @@
+ 
+ AUTOMAKE_OPTIONS = 1.2 foreign
+ 
+-DEFS+=  -DPATH_RADVD_CONF=\"$(PATH_RADVD_CONF)\" \
++DEFS =  -DPATH_RADVD_CONF=\"$(PATH_RADVD_CONF)\" \
+ 	-DPATH_RADVD_LOG=\"$(PATH_RADVD_LOG)\" -DLOG_FACILITY=$(LOG_FACILITY) \
+ 	-DPATH_RADVD_PID=\"$(PATH_RADVD_PID)\" \
+ 	-DVERSION=\"$(VERSION)\" -DINET6=1
+-INCLUDES+=-I$(srcdir) -I.
++INCLUDES =-I$(srcdir) -I.
+ 
+ ########################################################################
+ 
