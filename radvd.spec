@@ -1,20 +1,20 @@
-%define	orgver	0.6.2
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
-Version:	%{orgver}pl1
+Version:	0.6.2pl4
 Release:	1
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
-Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{orgver}.tar.gz
+Source0:	http://v6web.litech.org/radvd/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
-Patch0:		http://v6web.litech.org/%{name}/%{name}-%{version}.diff.gz
-URL:		http://www.mcs-cityline.net/~lf/radvd/
+URL:		http://v6web.litech.org/radvd/
 BuildRequires:	flex
 BuildRequires:	bison
+BuildRequires:	automake
+BuildRequires:	autoconf
 Prereq:		rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -40,10 +40,14 @@ sieciowe.
 Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %prep
-%setup  -q -n %{name}-%{orgver}
-%patch0 -p1
+%setup  -q
+
 
 %build
+rm missing
+aclocal
+autoconf
+automake -a -c
 %configure  
 
 %{__make}
