@@ -1,4 +1,4 @@
-# $Revision: 1.5 $
+# $Revision: 1.6 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -11,7 +11,7 @@ Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%
 Source1:	radvd.conf
 Source2:	radvd.init
 Requires:	rc-scripts >= 0.1.3	
-BuildRoot:   	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This daemon listens to router solicitations (RS) and answers with router
