@@ -1,4 +1,4 @@
-# $Revision: 1.8 $
+# $Revision: 1.9 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -6,7 +6,7 @@ Version:	0.5.0
 Release:	2
 Group:		Networking
 Group(pl):	Sieciowe
-Copyright:	GPL
+License:	GPL
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
 Source1:	radvd.conf
 Source2:	radvd.init
@@ -14,20 +14,20 @@ Requires:	rc-scripts >= 0.1.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-This daemon listens to router solicitations (RS) and answers with router
-advertisement (RA). Furthermore unsolicited RAs are also send from time
-to time.
+This daemon listens to router solicitations (RS) and answers with
+router advertisement (RA). Furthermore unsolicited RAs are also send
+from time to time.
 
 These RAs contain information, which is used by hosts to configure
-their interfaces. This information includes address prefixes, the
-MTU of the link and information about default routers.
+their interfaces. This information includes address prefixes, the MTU
+of the link and information about default routers.
 
 Router solicitations and router advertisement works only on IPv6
 networks.
 
 %description -l pl
-Demon ten nas³uchuje komunikatów "router solicitations" (RS) i odpowiada
-komunikatami "router adverisement" (RA).
+Demon ten nas³uchuje komunikatów "router solicitations" (RS) i
+odpowiada komunikatami "router adverisement" (RA).
 
 W ten sposób pomaga hostom w sieci konfigurowaæ swoje interfejsy
 sieciowe.
