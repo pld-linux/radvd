@@ -1,9 +1,9 @@
-# $Revision: 1.3 $
+# $Revision: 1.4 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
 Version:	0.5.0
-Release:	1
+Release:	2
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	GPL
