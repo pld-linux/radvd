@@ -10,6 +10,7 @@ Group(pl):	Sieciowe
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
+URL:		http://www.mcs-cityline.net/~lf/radvd/
 Prereq:		rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
