@@ -1,4 +1,4 @@
-# $Revision: 1.4 $
+# $Revision: 1.5 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
