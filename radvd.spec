@@ -1,16 +1,20 @@
+%define	orgver	0.6.2
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
-Version:	0.6.2
+Version:	%{orgver}pl1
 Release:	1
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
-Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{orgver}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
+Patch0:		http://v6web.litech.org/%{name}/%{name}-%{version}.diff.gz
 URL:		http://www.mcs-cityline.net/~lf/radvd/
+BuildRequires:	flex
+BuildRequires:	bison
 Prereq:		rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,7 +40,8 @@ sieciowe.
 Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %prep
-%setup  -q
+%setup  -q -n %{name}-%{orgver}
+%patch0 -p1
 
 %build
 %configure  
@@ -50,13 +55,7 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},%{_sysconfdir}/rc.d/i
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf 
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
-%{__make} install \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	exec_prefix=$RPM_BUILD_ROOT%{_exe_prefix}\
-        libdir=$RPM_BUILD_ROOT%{_libdir} \
-        sbindir=$RPM_BUILD_ROOT%{_sbindir} \
-        sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
-        mandir=$RPM_BUILD_ROOT%{_mandir} 
+%{makeinstall}
 
 gzip -9nf README TODO CHANGES
 
