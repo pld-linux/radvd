@@ -1,8 +1,8 @@
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
-Version:	0.6.2pl4
-Release:	3
+Version:	0.7.0
+Release:	1
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
