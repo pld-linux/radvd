@@ -1,15 +1,15 @@
-# $Revision: 1.9 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
 Version:	0.5.0
 Release:	2
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 License:	GPL
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
-Source1:	radvd.conf
-Source2:	radvd.init
+Source1:	%{name}.conf
+Source2:	%{name}.init
 Requires:	rc-scripts >= 0.1.3	
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -38,7 +38,6 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 %setup  -q
 
 %build
-LDFLAGS="-s" ; export LDFLAGS
 %configure  
 
 %{__make}
