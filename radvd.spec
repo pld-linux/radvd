@@ -46,8 +46,8 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 %build
 rm -f missing
 aclocal
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure
 
 %{__make}
