@@ -48,7 +48,7 @@ rm -f missing
 aclocal
 autoconf
 automake -a -c
-%configure  
+%configure
 
 %{__make}
 
@@ -56,7 +56,7 @@ automake -a -c
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf 
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
 %{__make} install \
@@ -85,7 +85,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz INTRO.html 
+%doc *.gz INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
