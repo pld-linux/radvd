@@ -3,10 +3,10 @@ Summary(pl):	Demon og³aszania routerów
 Name:		radvd
 Version:	0.5.0
 Release:	2
+License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
-License:	GPL
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
@@ -44,22 +44,20 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},%{_sysconfdir}/rc.d/init.d}
 
-install -d $RPM_BUILD_ROOT/{%{_sbindir},%{_mandir}/{man5,man8},%{_sysconfdir}/rc.d/init.d}
-
-install %{SOURCE1} $RPM_BUILD_ROOT/%{_sysconfdir}/radvd.conf 
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf 
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
 %{__make} install \
-	prefix=$RPM_BUILD_ROOT/%{_prefix} \
-	exec_prefix=$RPM_BUILD_ROOT/%{_exe_prefix}\
-        libdir=$RPM_BUILD_ROOT/%{_libdir} \
-        sbindir=$RPM_BUILD_ROOT/%{_sbindir} \
-        sysconfdir=$RPM_BUILD_ROOT/%{_sysconfdir} \
-        mandir=$RPM_BUILD_ROOT/%{_mandir} 
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	exec_prefix=$RPM_BUILD_ROOT%{_exe_prefix}\
+        libdir=$RPM_BUILD_ROOT%{_libdir} \
+        sbindir=$RPM_BUILD_ROOT%{_sbindir} \
+        sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
+        mandir=$RPM_BUILD_ROOT%{_mandir} 
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
-	README TODO CHANGES COPYRIGHT 
+gzip -9nf README TODO CHANGES
 
 %post
 /sbin/chkconfig --add radvd
@@ -85,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.gz TODO.gz CHANGES.gz COPYRIGHT.gz INTRO.html 
+%doc *.gz INTRO.html 
 %attr(754,root,root) /etc/rc.d/init.d/radvd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
