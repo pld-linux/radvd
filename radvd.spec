@@ -69,7 +69,7 @@ gzip -9nf README TODO CHANGES
 if [ -f /var/lock/subsys/radvd ]; then
 	/etc/rc.d/init.d/radvd restart >&2
 else
-	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd sever" 1>&2
+	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd server" 1>&2
 fi
 
 %preun
