@@ -64,10 +64,23 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 gzip -9nf README TODO CHANGES
 
 %post
-DESC="radvd server"; %chkconfig_add
+/sbin/chkconfig --add radvd
+
+if [ -f /var/lock/subsys/radvd ]; then
+	/etc/rc.d/init.d/radvd restart >&2
+else
+	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd sever" 1>&2
+fi
 
 %preun
-%chkconfig_del
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/radvd ]; then
+		/etc/rc.d/init.d/radvd stop >&2
+	fi
+	/sbin/chkconfig --del radvd
+fi
+
+%postun
 
 %clean
 rm -rf $RPM_BUILD_ROOT
