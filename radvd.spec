@@ -1,8 +1,8 @@
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
-Version:	0.5.0
-Release:	2
+Version:	0.6.1
+Release:	1
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -10,7 +10,7 @@ Group(pl):	Sieciowe
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
-Requires:	rc-scripts >= 0.1.3	
+Requires:	rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -87,5 +87,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(754,root,root) /etc/rc.d/init.d/radvd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
-%{_mandir}/man5/*
-%{_mandir}/man8/*
+%{_mandir}/man*/*
