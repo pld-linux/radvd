@@ -1,4 +1,4 @@
-# $Revision: 1.6 $
+# $Revision: 1.7 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -51,7 +51,7 @@ install -d $RPM_BUILD_ROOT/{%{_sbindir},%{_mandir}/{man5,man8},%{_sysconfdir}/rc
 install %{SOURCE1} $RPM_BUILD_ROOT/%{_sysconfdir}/radvd.conf 
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
-make install \
+%{__make} install \
 	prefix=$RPM_BUILD_ROOT/%{_prefix} \
 	exec_prefix=$RPM_BUILD_ROOT/%{_exe_prefix}\
         libdir=$RPM_BUILD_ROOT/%{_libdir} \
