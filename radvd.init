@@ -4,8 +4,8 @@
 #
 # chkconfig:	345 11 89
 #
-# description:	radvd listens to router solicitations (RS) and answers with
-#		router advertisement (RA). Furthermore unsolicited RAs are
+# description:	radvd listens to router solicitations (RS) and answers with \
+#		router advertisement (RA). Furthermore unsolicited RAs are \
 #		also send from time to time.
 
 
