@@ -6,6 +6,7 @@ Release:	3
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
+# Source0-md5:	5f0ae96490eab23ae926f9ee209c1e8b
 Source1:	%{name}.conf
 Source2:	%{name}.init
 Patch0:		%{name}-am_fix.patch
