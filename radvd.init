@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# radvd		radvd (Router ADVertisement Daemon)
+#
+# chkconfig:	345 11 89
+#
+# description:	radvd listens to router solicitations (RS) and answers with
+#		router advertisement (RA). Furthermore unsolicited RAs are
+#		also send from time to time.
+
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/radvd ] && . /etc/sysconfig/radvd
+
+# Check that networking is up.
+if [ "${NETWORKING}" = "no" ]; then
+	echo "WARNING: Networking is down. RADVD can't be runed."
+	exit 1
+fi
+
+# Check that IPv6 networking is up.
+if [ "${IPV6_NETWORKING}" != "yes" ]; then
+	echo "WARNING: RADVD can work only in IPv6 networks"
+	exit 1
+fi
+
+
+# See how we were called.
+case "$1" in
+  start)
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/radvd ]; then
+		show Starting radvd
+		daemon radvd
+	else
+		echo "radvdd already is running"
+	fi
+	touch /var/lock/subsys/radvd
+	;;
+  stop)
+	show Stopping radvd
+	killproc radvd
+	rm -f /var/lock/subsys/radvd
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	;;
+  status)
+	status radvd
+	;;
+  *)
+	echo "Usage: $0 {start|stop|status|restart|reload}"
+	exit 1
+esac
+
+exit 0
+
