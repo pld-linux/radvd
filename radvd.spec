@@ -1,4 +1,4 @@
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.gz TODO.gz CHANGES.gz COPYRIGHT.gz INTRO.html 
-%attr(755,root,root) %config /etc/rc.d/init.d/radvd
+%attr(754,root,root) /etc/rc.d/init.d/radvd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man5/*
