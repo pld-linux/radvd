@@ -2,11 +2,13 @@ Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
 Version:	0.6.2pl4
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Source0:	http://v6web.litech.org/radvd/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.init
@@ -16,6 +18,7 @@ BuildRequires:	bison
 BuildRequires:	automake
 BuildRequires:	autoconf
 Prereq:		rc-scripts >= 0.2.0
+Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -42,9 +45,8 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 %prep
 %setup  -q
 
-
 %build
-rm missing
+rm -f missing
 aclocal
 autoconf
 automake -a -c
@@ -63,9 +65,11 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
 gzip -9nf README TODO CHANGES
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 /sbin/chkconfig --add radvd
-
 if [ -f /var/lock/subsys/radvd ]; then
 	/etc/rc.d/init.d/radvd restart >&2
 else
@@ -79,11 +83,6 @@ if [ "$1" = "0" ]; then
 	fi
 	/sbin/chkconfig --del radvd
 fi
-
-%postun
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
