@@ -1,4 +1,4 @@
-# $Revision: 1.7 $
+# $Revision: 1.8 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -41,7 +41,7 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 LDFLAGS="-s" ; export LDFLAGS
 %configure  
 
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
