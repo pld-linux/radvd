@@ -1,4 +1,4 @@
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
@@ -10,7 +10,6 @@ Copyright:	GPL
 Source0:	ftp://ftp.cityline.net/pub/systems/linux/network/ipv6/%{name}/%{name}-%{version}.tar.gz
 Source1:	radvd.conf
 Source2:	radvd.init
-URL:		http://bugs.pld.org.pl
 Requires:	rc-scripts >= 0.1.3	
 BuildRoot:   	/tmp/%{name}-%{version}-root
 
@@ -26,7 +25,6 @@ MTU of the link and information about default routers.
 Router solicitations and router advertisement works only on IPv6
 networks.
 
-	 
 %description -l pl
 Demon ten nas³uchuje komunikatów "router solicitations" (RS) i odpowiada
 komunikatami "router adverisement" (RA).
@@ -34,8 +32,7 @@ komunikatami "router adverisement" (RA).
 W ten sposób pomaga hostom w sieci konfigurowaæ swoje interfejsy
 sieciowe.
 
-Og³aszanie routerów dzia³a tylko w sieciach IPv6
-
+Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %prep
 %setup  -q
@@ -65,18 +62,20 @@ make install \
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
 	README TODO CHANGES COPYRIGHT 
 
-%pre
-
 %post
 /sbin/chkconfig --add radvd
 
 if [ -f /var/lock/subsys/radvd ]; then
 	/etc/rc.d/init.d/radvd restart >&2
+else
+	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd sever" 1>&2
 fi
 
 %preun
-if [ "$1" = 0 ]; then
-	/etc/rc.d/init.d/radvd stop >&2
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/radvd ]; then
+		/etc/rc.d/init.d/radvd stop >&2
+	fi
 	/sbin/chkconfig --del radvd
 fi
 
