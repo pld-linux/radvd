@@ -16,7 +16,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-PreReq:		rc-scripts >= 0.2.0
+Requires:	rc-scripts >= 0.2.0
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -88,6 +88,6 @@ fi
 %defattr(644,root,root,755)
 %doc README TODO CHANGES INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
