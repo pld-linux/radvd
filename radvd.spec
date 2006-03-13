@@ -16,8 +16,9 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-Requires:	rc-scripts >= 0.2.0
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,17 +71,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add radvd
-if [ -f /var/lock/subsys/radvd ]; then
-	/etc/rc.d/init.d/radvd restart >&2
-else
-	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd server" 1>&2
-fi
+%service radvd restart "radvd server"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/radvd ]; then
-		/etc/rc.d/init.d/radvd stop >&2
-	fi
+	%service radvd stop
 	/sbin/chkconfig --del radvd
 fi
 
