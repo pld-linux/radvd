@@ -9,8 +9,6 @@ Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
 # Source0-md5:	56ce3f8cbf5966a0d531c21813320423
 Source1:	%{name}.conf
 Source2:	%{name}.init
-Patch0:		%{name}-am_fix.patch
-Patch1:		%{name}-ac25x.patch
 URL:		http://v6web.litech.org/radvd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -44,8 +42,6 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %prep
 %setup  -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 rm -f missing
