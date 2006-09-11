@@ -1,23 +1,22 @@
 Summary:	Router Advertisement Daemon
 Summary(pl):	Demon og³aszania routerów
 Name:		radvd
-Version:	0.7.2
+Version:	0.9.1
 Release:	1
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
-# Source0-md5:	26ea468b2323e44cf827ae5f84d18dc8
+# Source0-md5:	d5d24abd3dddc2b702e621ebf6b9cfdc
 Source1:	%{name}.conf
 Source2:	%{name}.init
-Patch0:		%{name}-am_fix.patch
-Patch1:		%{name}-ac25x.patch
 URL:		http://v6web.litech.org/radvd/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-PreReq:		rc-scripts >= 0.2.0
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts >= 0.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,8 +42,6 @@ Og³aszanie routerów dzia³a tylko w sieciach IPv6.
 
 %prep
 %setup  -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 rm -f missing
@@ -70,17 +67,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add radvd
-if [ -f /var/lock/subsys/radvd ]; then
-	/etc/rc.d/init.d/radvd restart >&2
-else
-	echo "Type \"/etc/rc.d/init.d/radvd start\" to start radvd server" 1>&2
-fi
+%service radvd restart "radvd server"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/radvd ]; then
-		/etc/rc.d/init.d/radvd stop >&2
-	fi
+	%service radvd stop
 	/sbin/chkconfig --del radvd
 fi
 
@@ -88,6 +79,6 @@ fi
 %defattr(644,root,root,755)
 %doc README TODO CHANGES INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/radvd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
