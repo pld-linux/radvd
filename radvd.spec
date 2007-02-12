@@ -1,5 +1,5 @@
 Summary:	Router Advertisement Daemon
-Summary(pl.UTF-8):   Demon ogłaszania routerów
+Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	0.9.1
 Release:	1
