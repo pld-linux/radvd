@@ -1,5 +1,5 @@
 Summary:	Router Advertisement Daemon
-Summary(pl):	Demon og≥aszania routerÛw
+Summary(pl.UTF-8):   Demon og≈Çaszania router√≥w
 Name:		radvd
 Version:	0.9.1
 Release:	1
@@ -31,14 +31,14 @@ of the link and information about default routers.
 Router solicitations and router advertisement works only on IPv6
 networks.
 
-%description -l pl
-Demon ten nas≥uchuje komunikatÛw "router solicitations" (RS) i
+%description -l pl.UTF-8
+Demon ten nas≈Çuchuje komunikat√≥w "router solicitations" (RS) i
 odpowiada komunikatami "router adverisement" (RA).
 
-W ten sposÛb pomaga hostom w sieci konfigurowaÊ swoje interfejsy
+W ten spos√≥b pomaga hostom w sieci konfigurowaƒá swoje interfejsy
 sieciowe.
 
-Og≥aszanie routerÛw dzia≥a tylko w sieciach IPv6.
+Og≈Çaszanie router√≥w dzia≈Ça tylko w sieciach IPv6.
 
 %prep
 %setup  -q
