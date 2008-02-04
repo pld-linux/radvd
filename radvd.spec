@@ -1,12 +1,12 @@
 Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
-Version:	1.0
+Version:	1.1
 Release:	1
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
-# Source0-md5:	8bce4a21757cf069f5a69e2f9bee9e5b
+# Source0-md5:	9ee449e4b89171432cb9e9100e0b5648
 Source1:	%{name}.conf
 Source2:	%{name}.init
 URL:		http://v6web.litech.org/radvd/
