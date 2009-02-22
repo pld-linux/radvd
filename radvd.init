@@ -41,7 +41,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/radvd ]; then
 		msg_starting radvd
-		daemon radvd
+		daemon radvd -m syslog
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/radvd
 	else
