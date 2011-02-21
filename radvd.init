@@ -41,7 +41,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/radvd ]; then
 		msg_starting radvd
-		daemon radvd -m syslog
+		daemon radvd -m syslog -u radvd -p /var/run/radvd/radvd.pid
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/radvd
 	else
@@ -51,7 +51,7 @@ case "$1" in
   stop)
 	if [ -f /var/lock/subsys/radvd ]; then
 		msg_stopping radvd
-		killproc radvd
+		killproc --pidfile /var/run/radvd/radvd.pid radvd
 		rm -f /var/lock/subsys/radvd
 	else
 		msg_not_running radvdd
@@ -62,12 +62,22 @@ case "$1" in
 	$0 start
 	exit $?
 	;;
+  reload)
+	if [ ! -f /var/lock/subsys/radvd ]; then
+		msg_not_running radvd
+		exit 7
+	fi
+
+	msg_reloading radvd
+	killproc --pidfile /var/run/radvd/radvd.pid radvd -HUP
+	exit $?
+	;;
   status)
 	status radvd
 	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
 	exit 3
 esac
 

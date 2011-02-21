@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	1.7
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
@@ -17,6 +17,8 @@ BuildRequires:	flex
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.2.0
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/usr/sbin/useradd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,7 +56,7 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,/var/run/radvd}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
@@ -64,6 +66,9 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%pre
+%useradd -u 260 -d /usr/share/empty -s /bin/false -c "radvd" -g proc radvd
 
 %post
 /sbin/chkconfig --add radvd
@@ -75,10 +80,16 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del radvd
 fi
 
+%postun
+if [ "$1" = "0" ]; then
+        %userremove radvd
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc README TODO CHANGES INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
+%attr(755,radvd,root) %dir /var/run/radvd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
