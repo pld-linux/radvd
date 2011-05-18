@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	1.8
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
@@ -90,6 +90,6 @@ fi
 %doc README TODO CHANGES INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
 %attr(755,radvd,root) %dir /var/run/radvd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
+%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
