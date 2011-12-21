@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	1.8.3
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
@@ -84,6 +84,9 @@ fi
 if [ "$1" = "0" ]; then
         %userremove radvd
 fi
+
+%triggerpostun -- radvd < 1.8.3-2
+chmod 0644 /etc/radvd.conf
 
 %files
 %defattr(644,root,root,755)
