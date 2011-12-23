@@ -82,10 +82,10 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-        %userremove radvd
+	%userremove radvd
 fi
 
-%triggerpostun -- radvd < 1.8.3-2
+%triggerpostun -- %{name} < 1.8.3-2
 chmod 0644 /etc/radvd.conf
 
 %files
