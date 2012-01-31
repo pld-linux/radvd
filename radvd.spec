@@ -9,6 +9,7 @@ Source0:	http://v6web.litech.org/radvd/dist/%{name}-%{version}.tar.gz
 # Source0-md5:	bdeca76d976282c306f3c454d6ff1f67
 Source1:	%{name}.conf
 Source2:	%{name}.init
+Source3:	%{name}.tmpfiles
 URL:		http://v6web.litech.org/radvd/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -56,10 +57,12 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,/var/run/radvd}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8},/etc/rc.d/init.d,/var/run/radvd} \
+	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/radvd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/radvd
+install %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -92,6 +95,7 @@ chmod 0644 /etc/radvd.conf
 %defattr(644,root,root,755)
 %doc README TODO CHANGES INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
+/usr/lib/tmpfiles.d/%{name}.conf
 %attr(755,radvd,root) %dir /var/run/radvd
 %attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
 %attr(755,root,root) %{_sbindir}/*
