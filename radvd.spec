@@ -3,20 +3,19 @@ Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	2.21
 Release:	1
-License:	GPL
+License:	BSD
 Group:		Networking
 Source0:	https://github.com/radvd-project/radvd/releases/download/v%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	44b1883c193afd55d396ab76556d6f66
 Source1:	%{name}.conf
 Source2:	%{name}.init
 Source3:	%{name}.tmpfiles
-URL:		http://v6web.litech.org/radvd/
+URL:		https://github.com/radvd-project/radvd
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	glibc >= 6:2.17
-BuildRequires:	libdaemon-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.2.0
