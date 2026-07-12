@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	2.21
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking
 Source0:	https://github.com/radvd-project/radvd/releases/download/v%{version}/%{name}-%{version}.tar.xz
