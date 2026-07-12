@@ -21,6 +21,7 @@ Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.2.0
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/usr/sbin/useradd
+Provides:	user(radvd)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
