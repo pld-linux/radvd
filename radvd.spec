@@ -11,16 +11,18 @@ Source1:	%{name}.conf
 Source2:	%{name}.init
 Source3:	%{name}.tmpfiles
 URL:		https://github.com/radvd-project/radvd
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake >= 1.2
 BuildRequires:	bison
 BuildRequires:	flex
-BuildRequires:	glibc >= 6:2.17
+# or glibc-devel>=2.17 + libbsd-devel (for strlcpy)
+BuildRequires:	glibc-devel >= 6:2.38
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
-Requires:	rc-scripts >= 0.2.0
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/usr/sbin/useradd
+Requires:	rc-scripts >= 0.2.0
 Provides:	user(radvd)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -49,9 +51,9 @@ Ogłaszanie routerów działa tylko w sieciach IPv6.
 %setup  -q
 
 %build
-rm -f missing
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--disable-silent-rules
@@ -96,11 +98,14 @@ chmod 0644 /etc/radvd.conf
 
 %files
 %defattr(644,root,root,755)
-%doc README.md TODO CHANGES* INTRO.html
+%doc AUTHORS CHANGES COPYRIGHT README.md SECURITY.md TODO INTRO.html
 %attr(754,root,root) /etc/rc.d/init.d/radvd
 %{systemdtmpfilesdir}/%{name}.conf
 %{systemdunitdir}/radvd.service
 %attr(755,radvd,root) %dir /var/run/radvd
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/radvd.conf
-%attr(755,root,root) %{_sbindir}/*
-%{_mandir}/man*/*
+%attr(755,root,root) %{_sbindir}/radvd
+%attr(755,root,root) %{_sbindir}/radvdump
+%{_mandir}/man5/radvd.conf.5*
+%{_mandir}/man8/radvd.8*
+%{_mandir}/man8/radvdump.8*
