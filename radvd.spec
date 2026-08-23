@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	2.21
-Release:	2
+Release:	3
 License:	BSD
 Group:		Networking
 Source0:	https://github.com/radvd-project/radvd/releases/download/v%{version}/%{name}-%{version}.tar.xz
@@ -20,9 +20,11 @@ BuildRequires:	glibc-devel >= 6:2.38
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/usr/sbin/useradd
 Requires:	rc-scripts >= 0.2.0
+Requires:	systemd-units >= 38
 Provides:	user(radvd)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,7 +58,8 @@ Ogłaszanie routerów działa tylko w sieciach IPv6.
 %{__autoheader}
 %{__automake}
 %configure \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-systemdsystemunitdir=%{systemdunitdir}
 
 %{__make}
 
@@ -81,20 +84,23 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add radvd
 %service radvd restart "radvd server"
+%systemd_post radvd.service
 
 %preun
 if [ "$1" = "0" ]; then
 	%service radvd stop
 	/sbin/chkconfig --del radvd
 fi
+%systemd_preun radvd.service
 
 %postun
 if [ "$1" = "0" ]; then
 	%userremove radvd
 fi
+%systemd_reload
 
-%triggerpostun -- %{name} < 1.8.3-2
-chmod 0644 /etc/radvd.conf
+%triggerpostun -- %{name} < 2.21-3
+%systemd_trigger radvd.service
 
 %files
 %defattr(644,root,root,755)
