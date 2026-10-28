@@ -2,7 +2,7 @@ Summary:	Router Advertisement Daemon
 Summary(pl.UTF-8):	Demon ogłaszania routerów
 Name:		radvd
 Version:	2.21
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking
 Source0:	https://github.com/radvd-project/radvd/releases/download/v%{version}/%{name}-%{version}.tar.xz
@@ -10,6 +10,8 @@ Source0:	https://github.com/radvd-project/radvd/releases/download/v%{version}/%{
 Source1:	%{name}.conf
 Source2:	%{name}.init
 Source3:	%{name}.tmpfiles
+# https://github.com/radvd-project/radvd/commit/3e377fbca2b3650a93acc69ce262bf608f72e211
+Patch0:		%{name}-radvdump-sanitize.patch
 URL:		https://github.com/radvd-project/radvd
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.2
@@ -51,6 +53,7 @@ Ogłaszanie routerów działa tylko w sieciach IPv6.
 
 %prep
 %setup  -q
+%patch -P0 -p1
 
 %build
 %{__aclocal}

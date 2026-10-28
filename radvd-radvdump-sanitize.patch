@@ -1,0 +1,90 @@
+From 3e377fbca2b3650a93acc69ce262bf608f72e211 Mon Sep 17 00:00:00 2001
+From: Skye Soss <skye@soss.website>
+Date: Wed, 22 Jul 2026 19:47:35 -0500
+Subject: [PATCH] radvdump: sanitize output
+
+Some RA fields contain arbitrary strings, which radvdump would
+previously print verbatim to stdout. This could cause readability issues
+when newline characters were encountered, or security issues if the data
+contained terminal escape sequences. Now all non-printable characters
+will be written as \xHH, and double-quote and backslash will be escaped.
+---
+ radvdump.c | 35 +++++++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
+
+diff --git a/radvdump.c b/radvdump.c
+index bcc468f3..91460f2c 100644
+--- a/radvdump.c
++++ b/radvdump.c
+@@ -17,6 +17,8 @@
+ #include "config.h"
+ #include "includes.h"
+ 
++#include <ctype.h>
++
+ #if __BYTE_ORDER == __LITTLE_ENDIAN
+ #define bswap64(y) (((uint64_t)ntohl(y)) << 32 | ntohl(y>>32))
+ #else
+@@ -43,6 +45,7 @@ static void version(void);
+ static void usage(char const *pname);
+ static void print_ff(unsigned char *, int, struct sockaddr_in6 *, int, unsigned int, int);
+ static void print_preferences(int);
++static void print_sanitized(const char *, size_t);
+ 
+ int main(int argc, char *argv[])
+ {
+@@ -282,11 +285,12 @@ static void print_ff(unsigned char *msg, int len, struct sockaddr_in6 *addr, int
+ 		}
+ 		case ND_OPT_CAPTIVE_PORTAL: {
+ 			char *opt_captive_portal = (char *)opt_str+2;
+-			char *captive_portal = strndup(opt_captive_portal, optlen-2);
++			size_t captive_portal_len = strnlen(opt_captive_portal, optlen-2);
+ 
+-			printf("\tAdvCaptivePortalAPI \"%s\";\n", captive_portal);
++			printf("\tAdvCaptivePortalAPI \"");
++			print_sanitized(opt_captive_portal, captive_portal_len);
++			printf("\";\n");
+ 
+-			free(captive_portal);
+ 			break;
+ 		}
+ 		case ND_OPT_TIMESTAMP: {
+@@ -501,7 +505,8 @@ static void print_ff(unsigned char *msg, int len, struct sockaddr_in6 *addr, int
+ 					if (suffix[0] == '\0')
+ 						continue;
+ 
+-					printf(" %s", suffix);
++					printf(" ");
++					print_sanitized(suffix, strlen(suffix));
+ 
+ 					suffix[0] = '\0';
+ 					continue;
+@@ -588,6 +593,28 @@ static void print_ff(unsigned char *msg, int len, struct sockaddr_in6 *addr, int
+ 	fflush(stdout);
+ }
+ 
++/*
++ * String data embedded in RA options comes straight off the wire and is
++ * neither NUL-terminated nor guaranteed to be printable.
++ * Escape anything outside printable ASCII (and '"'/'\\') so a hostile
++ * RA can't smuggle terminal control sequences through radvdump.
++ */
++static void print_sanitized(const char *src, size_t len)
++{
++	for (size_t i = 0; i < len; i++) {
++		unsigned char c = (unsigned char)src[i];
++
++		if (c == '\\' || c == '"') {
++			putchar('\\');
++			putchar(c);
++		} else if (isprint(c)) {
++			putchar(c);
++		} else {
++			printf("\\x%02x", c);
++		}
++	}
++}
++
+ static void print_preferences(int p)
+ {
+ 	switch (p) {
